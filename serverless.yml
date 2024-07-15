@@ -2,17 +2,11 @@ service: serverless-cognito-auth
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs20.x
   environment:
     user_pool_id: { Ref: UserPool }
     client_id: { Ref: UserClient }
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - cognito-idp:AdminInitiateAuth
-        - cognito-idp:AdminCreateUser
-        - cognito-idp:AdminSetUserPassword
-      Resource: "*"
+  role: arn:aws:iam::905418036958:role/deployAdministratorRole
 
 functions:
   loginUser:
@@ -73,3 +67,6 @@ resources:
         IdTokenValidity: 5
         ExplicitAuthFlows:
           - "ADMIN_NO_SRP_AUTH"
+
+plugins:
+  - serverless-offline
